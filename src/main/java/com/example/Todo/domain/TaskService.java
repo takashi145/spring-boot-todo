@@ -21,4 +21,8 @@ public class TaskService {
     public void create(String title, String description, Date deadline) {
         taskRepository.insert(title, description, deadline);
     }
+
+    public Task findById(long id) {
+        return taskRepository.findById(id);
+    }
 }

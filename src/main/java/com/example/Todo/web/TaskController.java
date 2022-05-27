@@ -9,10 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -43,5 +40,12 @@ public class TaskController {
         }
         taskService.create(form.getTitle(), form.getDescription(), form.getDeadline());
         return "redirect:/task";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") long id, Model model) {
+        Task task = taskService.findById(id);
+        model.addAttribute("task", task);
+        return "task/show";
     }
 }

@@ -15,4 +15,7 @@ public interface TaskRepository {
 
     @Insert("insert into tasks(title, description, deadline) value(#{title}, #{description}, #{deadline})")
     void insert(String title, String description, Date deadline);
+
+    @Select("select * from tasks where id = #{id}")
+    Task findById(long id);
 }
