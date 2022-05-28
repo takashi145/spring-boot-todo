@@ -25,4 +25,8 @@ public class TaskService {
     public Task findById(long id) {
         return taskRepository.findById(id);
     }
+
+    public void update(long id, String title, String description, Date deadline) {
+        taskRepository.update(id, title, description, deadline);
+    }
 }

@@ -7,21 +7,21 @@
 </head>
 <body>
     <div class="container">
-        <a th:href="@{/task}">戻る</a>
-        <form acrion="" th:action="@{create}" th:method="post" th:object="${taskForm}">
+        <a th:href="@{/task/{id}(id=${task.id})}">戻る</a>
+        <form action="" th:method="put" th:object="${taskForm}">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" th:field="*{title}">
+                <input type="text" class="form-control" id="title" name="title" th:value="${task.title}">
                 <span th:errors="*{title}" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" th:field="*{description}">
+                <input type="text" class="form-control" id="description" name="description" th:value="${task.description}">
                 <span th:errors="*{description}" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="deadline" class="form-label">Deadline</label>
-                <input type="date" class="form-control" id="deadline" name="deadline" th:field="*{deadline}">
+                <input type="date" class="form-control" id="deadline" name="deadline" th:value="${#dates.format(task.deadline, 'yyyy-MM-dd')}">
                 <span th:errors="*{deadline}" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

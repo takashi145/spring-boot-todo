@@ -4,6 +4,7 @@ import com.example.Todo.domain.Task;
 import com.example.Todo.domain.TaskService;
 import com.example.Todo.web.forms.TaskForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -47,5 +48,21 @@ public class TaskController {
         Task task = taskService.findById(id);
         model.addAttribute("task", task);
         return "task/show";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") long id, @ModelAttribute TaskForm form, Model model) {
+        Task task = taskService.findById(id);
+        model.addAttribute("task", task);
+        return "task/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable("id") long id, @Validated TaskForm form, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            return edit(id, form, model);
+        }
+        taskService.update(id, form.getTitle(), form.getDescription(), form.getDeadline());
+        return "redirect:/task/" + id;
     }
 }
