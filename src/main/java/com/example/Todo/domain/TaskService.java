@@ -29,4 +29,9 @@ public class TaskService {
     public void update(long id, String title, String description, Date deadline) {
         taskRepository.update(id, title, description, deadline);
     }
+
+    public void delete(long id) {
+        taskRepository.delete(id);
+    }
+
 }

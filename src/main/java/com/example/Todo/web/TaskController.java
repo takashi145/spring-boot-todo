@@ -65,4 +65,11 @@ public class TaskController {
         taskService.update(id, form.getTitle(), form.getDescription(), form.getDeadline());
         return "redirect:/task/" + id;
     }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") long id, Model model) {
+        taskService.delete(id);
+        return "redirect:/task";
+    }
+
 }

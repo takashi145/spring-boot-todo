@@ -23,7 +23,7 @@
             </div>
             <div>
                 <a th:href="@{/task/{id}/edit(id=${task.id})}" class="btn btn-primary">編集</a>
-                <form action="" method="post">
+                <form th:action="@{/task/{id}/delete(id=${task.id})}" th:method="post">
                     <button type="submit" class="btn btn-danger">削除</button>
                 </form>
             </div>

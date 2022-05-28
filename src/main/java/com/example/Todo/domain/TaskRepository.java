@@ -1,9 +1,6 @@
 package com.example.Todo.domain;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -22,4 +19,7 @@ public interface TaskRepository {
 
     @Update("update tasks set title = #{title}, description = #{description}, deadline = #{deadline} where id = #{id}")
     void update(long id, String title, String description, Date deadline);
+
+    @Delete("delete from tasks where id = #{id}")
+    void delete(long id);
 }
