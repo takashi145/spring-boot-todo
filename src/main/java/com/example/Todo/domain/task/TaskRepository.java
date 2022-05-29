@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface TaskRepository {
 
-    @Select("select * from tasks")
+    @Select("select * from tasks where deadline >= now()")
     List<Task> findAll();
 
     @Insert("insert into tasks(title, description, deadline) value(#{title}, #{description}, #{deadline})")
