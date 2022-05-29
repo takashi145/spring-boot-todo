@@ -1,4 +1,4 @@
-package com.example.Todo.domain;
+package com.example.Todo.domain.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.Todo.domain;
+package com.example.Todo.domain.task;
 
 import org.apache.ibatis.annotations.*;
 

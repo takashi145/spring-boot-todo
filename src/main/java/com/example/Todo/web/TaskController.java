@@ -1,18 +1,15 @@
 package com.example.Todo.web;
 
-import com.example.Todo.domain.Task;
-import com.example.Todo.domain.TaskService;
+import com.example.Todo.domain.task.Task;
+import com.example.Todo.domain.task.TaskService;
 import com.example.Todo.web.forms.TaskForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller

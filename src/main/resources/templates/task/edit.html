@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <a th:href="@{/task/{id}(id=${task.id})}">戻る</a>
-        <form action="" th:method="put" th:object="${taskForm}">
+        <form th:action="@{/task/{id}/edit(id=${task.id})}" th:method="post" th:object="${taskForm}">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" th:value="${task.title}">
