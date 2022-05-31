@@ -6,6 +6,7 @@ import com.example.Todo.domain.task.TaskService;
 import com.example.Todo.domain.user.User;
 import com.example.Todo.web.forms.TaskForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class TaskController {
         Task task = taskService.findById(id);
         //作成者かどうか
         if(task.getUser_id() != user.getId()) {
-            return null;
+            return "forward:/error";
         }
         model.addAttribute("task", task);
         return "task/show";
@@ -59,7 +60,7 @@ public class TaskController {
     public String edit(@AuthenticationPrincipal CustomUserDetails user, @PathVariable("id") long id, @ModelAttribute TaskForm form, Model model) {
         Task task = taskService.findById(id);
         if(task.getUser_id() != user.getId()) {
-            return null;
+            return "forward:/error";
         }
         model.addAttribute("task", task);
         return "task/edit";
