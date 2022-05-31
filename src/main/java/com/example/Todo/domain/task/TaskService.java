@@ -13,13 +13,13 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public List<Task> findAll() {
-        return taskRepository.findAll();
+    public List<Task> findAll(long id) {
+        return taskRepository.findAll(id);
     }
 
     @Transactional
-    public void create(String title, String description, Date deadline) {
-        taskRepository.insert(title, description, deadline);
+    public void create(String title, long user_id, String description, Date deadline) {
+        taskRepository.insert(title, user_id, description, deadline);
     }
 
     public Task findById(long id) {

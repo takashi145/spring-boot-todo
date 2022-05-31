@@ -1,9 +1,13 @@
 package com.example.Todo.web;
 
+import com.example.Todo.domain.auth.CustomUserDetails;
 import com.example.Todo.domain.task.Task;
 import com.example.Todo.domain.task.TaskService;
+import com.example.Todo.domain.user.User;
 import com.example.Todo.web.forms.TaskForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,8 +24,8 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public String index(Model model) {
-        List<Task> taskList = taskService.findAll();
+    public String index(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+        List<Task> taskList = taskService.findAll(user.getId());
         model.addAttribute("taskList", taskList);
         return "task/index";
     }
@@ -32,32 +36,39 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String store(@Validated TaskForm form, BindingResult bindingResult, Model model) {
+    public String store(@AuthenticationPrincipal CustomUserDetails user, @Validated TaskForm form, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
             return create(form);
         }
-        taskService.create(form.getTitle(), form.getDescription(), form.getDeadline());
+        taskService.create(form.getTitle(), user.getId(), form.getDescription(), form.getDeadline());
         return "redirect:/task";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") long id, Model model) {
+    public String show(@AuthenticationPrincipal CustomUserDetails user, @PathVariable("id") long id, Model model) {
         Task task = taskService.findById(id);
+        //作成者かどうか
+        if(task.getUser_id() != user.getId()) {
+            return null;
+        }
         model.addAttribute("task", task);
         return "task/show";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") long id, @ModelAttribute TaskForm form, Model model) {
+    public String edit(@AuthenticationPrincipal CustomUserDetails user, @PathVariable("id") long id, @ModelAttribute TaskForm form, Model model) {
         Task task = taskService.findById(id);
+        if(task.getUser_id() != user.getId()) {
+            return null;
+        }
         model.addAttribute("task", task);
         return "task/edit";
     }
 
     @PostMapping("/{id}/edit")
-    public String update(@PathVariable("id") long id, @Validated TaskForm form, BindingResult bindingResult, Model model) {
+    public String update(@AuthenticationPrincipal CustomUserDetails user, @PathVariable("id") long id, @Validated TaskForm form, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return edit(id, form, model);
+            return edit(user, id, form, model);
         }
         taskService.update(id, form.getTitle(), form.getDescription(), form.getDeadline());
         return "redirect:/task/" + id;
