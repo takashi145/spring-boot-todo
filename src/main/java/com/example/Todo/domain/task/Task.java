@@ -10,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Task {
     private long id;
+    private long user_id;
     private String title;
     private String description;
     private Date deadline;
