@@ -7,6 +7,8 @@ import com.example.Todo.web.forms.UserForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.spi.LoggerRegistry;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,19 +28,28 @@ public class AuthController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@AuthenticationPrincipal UserDetails user, Model model){
+        if(user != null) {
+            return "redirect:/task";
+        }
+
+        model.addAttribute("show", false);
         return "auth/login";
     }
 
     @GetMapping("/register")
-    public String register(@ModelAttribute UserForm form) {
+    public String register(@AuthenticationPrincipal UserDetails user, @ModelAttribute UserForm form, Model model) {
+        if(user != null) {
+            return "redirect:/task";
+        }
+        model.addAttribute("show", false);
         return "auth/register";
     }
 
     @PostMapping("/register")
     public String register(@Validated UserForm form, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return register(form);
+            return "auth/register";
         }
         userService.create(form.getUsername(), form.getPassword());
         return "redirect:/task";
